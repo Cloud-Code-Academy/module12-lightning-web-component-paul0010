@@ -1,0 +1,58 @@
+<template>
+  <lightning-layout multiple-rows>
+    <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+    <lightning-layout-item size="4" padding="around-small">
+      <lightning-card title="PD1 Calculator">
+        <lightning-button variant="brand" label="Calculate" slot="actions" onclick={calculateScore}></lightning-button>
+        <div class="slds-var-p-horizontal_medium">
+          <lightning-input type="number" label="Developer Fundamentals: 23%" name="devFund" value={devFundScore} maxlength="3" onchange={handleChange}></lightning-input>
+          <lightning-input type="number" label="Process Automation: 30%" name="proAutoLogic" value={proAutoLogicScore} maxlength="3" onchange={handleChange}></lightning-input>
+          <lightning-input type="number" label="User Interface: 25%" name="UserInt" value={UserIntScore} maxlength="3" onchange={handleChange}></lightning-input>
+          <lightning-input type="number" label="Testing, Debugging, and Deployment: 22%" name="TestDebugAndDepl" value={TestDebugAndDeplScore} maxlength="3" onchange={handleChange}></lightning-input>
+        </div>
+        <div slot="footer">
+          <h1 class="slds-text-heading_large slds-text-title_caps resultText">Certification Results</h1>
+          <p class="slds-text-heading_medium">Certification Score: <span class="slds-text-color_destructive">{certificationScore}%</span></p>
+          <div>
+            <h1 class="slds-text-heading_large">Previous Attempt</h1>
+            <lightning-tabset>
+              <div for:each={attemptHistory} for:item="attempt" key={attempt.Id}>
+                <lightning-tab label={attempt.Id}>
+                  <c-score-information
+                  score={attempt.Score}
+                  attempt-id={attempt.Id}
+                  number-of-questions={numberOfQuestions}
+                  ondeleteattempt={deleteAttemptHandler}
+                  ></c-score-information>
+                </lightning-tab>
+              </div>
+            </lightning-tabset>
+          </div>
+          <template lwc:if={showResources}>
+            <ul class="slds-text-align_left slds-text-heading_small slds-var-p-top_medium slds-list_dotted slds-box">
+              <li class="resourceLi">
+                Resources:
+              </li>
+              <li>
+                <a href="https://trailhead.salesforce.com/en/credentials/platformdeveloperi">PD1 Exam Guide</a>
+              </li>
+              <li>
+                <a href="https://focusonforce.com/salesforce-certifications/platform-developer-1/">Focus On Force</a>
+              </li>
+              <li>
+                <a href="https://courses.salesforcementor.com/p/salesforce-development-apex-fundamentals">Salesforce Mentor</a>
+              </li>
+            </ul>
+          </template>
+          <template lwc:elseif={showGoodJob}>
+            <p>You are ready for you first developer job!</p>
+          </template>
+          <template lwc:else>
+            <p>Press calculate to see your score.</p>
+          </template>
+        </div>
+      </lightning-card>
+    </lightning-layout-item>
+    <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+  </lightning-layout>
+</template>
